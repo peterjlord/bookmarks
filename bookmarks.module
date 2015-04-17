@@ -54,8 +54,13 @@ function bookmarks_view_bookmarks() {
 
   return implode($output);
 }
-function bookmarks_view_bookmark() {
+function bookmarks_view_bookmark($id) {
+  $bookmarks = entity_load('bookmarks', array($id));
+  $bookmark = $bookmarks[$id];
+  drupal_set_title($bookmark->bookmark);
+  $output = entity_view('bookmarks', array($bookmark));
 
+  return $output;
 }
 /**
  * Extending the EntityAPIController for the Project entity.
