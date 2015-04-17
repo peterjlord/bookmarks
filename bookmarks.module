@@ -168,7 +168,7 @@ class BookmarkEntityController extends EntityAPIController {
  *   */
 class BookmarkEntity extends Entity {
   /**
-  *    * Change the default URI from default/id to project/id
+  *    * Change the default URI from default/id to bookmark/id
   *       */
   protected function defaultUri() {
     return array('path' => 'bookmark/' . $this->identifier());
