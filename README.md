@@ -1,2 +1,2 @@
 # bookmarks
-Bookmarks
+Bookmarks for Drupal Entity API
