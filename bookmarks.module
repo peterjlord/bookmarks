@@ -25,8 +25,8 @@ function bookmarks_entity_info() {
     'access callback' => 'bookmarks_access_callback',
     'uri callback' => 'entity_class_uri',
     'admin ui' => array(
-        'path' => 'admin/bookmarks',
-          'controller class' => 'EntityDefaultUIController',
+      'path' => 'admin/bookmarks',
+      'controller class' => 'EntityDefaultUIController',
     ),
     'module' => 'bookmarks',
     'entity class' => 'BookmarkEntity', 
@@ -106,14 +106,6 @@ function bookmarks_form($form, &$form_state, $bookmark = NULL) {
     '#default_value' => isset($bookmark->url) ? $bookmark->url: '',
     '#required' => TRUE,
   );
-  $form['added'] = array(
-    '#title' => t('Date Added'),
-    //'#type' => 'textfield',
-    '#type' => 'textfield',
-    '#default_value' => isset($bookmark->added) ? check_plain($bookmark->added) : '',
-    '#required' => FALSE,
-   );
-
   $form['submit'] = array(
     '#type' => 'submit', 
     '#value' => isset($project->id) ? t('Update bookmark') : t('Save bookmark'),

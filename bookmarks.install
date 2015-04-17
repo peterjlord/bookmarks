@@ -28,12 +28,6 @@ function bookmarks_schema() {
         'not null' => FALSE,
         'default' => NULL
       ),
-      'added' => array(
-        'description' => 'Bookmark added.',
-        'type' => 'int',
-        'length' => 11,
-        'not null' => FALSE,
-      ),
       'uid' => array(
         'type' => 'int',
         'unsigned' => TRUE,
