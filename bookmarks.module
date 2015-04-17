@@ -67,19 +67,19 @@ class BookmarkEntityController extends EntityAPIController {
     $build['bookmark'] = array(
       '#type' => 'markup',
       '#markup' => check_plain($entity->bookmark),
-      '#prefix' => '<div class="project-description">',
+      '#prefix' => '<div class="bookmark-bookmark">',
       '#suffix' => '</div>',
     );
     $build['url'] = array(
       '#type' => 'markup',
       '#markup' => check_plain($entity->url),
-      '#prefix' => '<div class="project-description">',
+      '#prefix' => '<div class="bookmark-url">',
       '#suffix' => '</div>',
     );
     $build['added'] = array(
       '#type' => 'markup',
       '#markup' => date('d F, Y', check_plain($entity->added)),
-      '#prefix' => '<p>Added: ',
+      '#prefix' => '<p>Date Added: ',
       '#suffix' => '</p>',
     );
     return $build;
