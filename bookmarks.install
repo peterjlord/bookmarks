@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function bookmarks_schema() {
+  $schema = array();
+
+  $schema['bookmarks'] = array(
+    'description' => 'The base table for the Bookmarks entity',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Primary key of the Bookmarks entity',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'bookmark' => array(
+        'description' => 'Bookmark name.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'url' => array(
+        'description' => 'Bookmark url.',
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+        'default' => NULL
+      ),
+      'added' => array(
+        'description' => 'Bookmark added.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => FALSE,
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => NULL,
+        'description' => "The {users}.uid of the associated user.",
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}

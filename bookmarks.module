@@ -1,0 +1,50 @@
+<?php
+/**
+ * Implements hook_entity_info().
+ */
+function bookmarks_entity_info() {
+
+  $info = array();
+
+  $info['bookmarks'] = array(
+    'label' => t('Bookmark'),
+    'base table' => 'bookmarks',
+    'entity keys' => array(
+      'id' => 'id',
+      'label' => 'name',
+    ),
+    'module' => 'bookmarks',
+  );
+
+  return $info;
+}
+
+
+/**
+ * Implements hook_menu()
+ */
+function bookmarks_menu() {
+  $items = array();
+
+  $items['bookmarks'] = array(
+    'title' => 'Bookmarks',
+    'page callback' => 'bookmarks_view_bookmarks',
+    'access arguments' => array('access content'),
+  );
+  $items['bookmark/%'] = array(
+    'title' => 'Bookmark',
+    'page callback' => 'bookmarks_view_bookmark',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+  );
+  return $items;
+}
+
+function bookmarks_view_bookmarks() {
+  $bookmarks = entity_load('bookmarks', array(1, 2));
+  dpm($bookmarks);
+  return 'Some string';
+}
+function bookmarks_view_bookmark() {
+
+}
