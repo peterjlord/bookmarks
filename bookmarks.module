@@ -13,12 +13,40 @@ function bookmarks_entity_info() {
       'id' => 'id',
       'label' => 'name',
     ),
+
+    'fieldable' => TRUE,
+    'bundles' => array(
+      'bookmarks' => array(
+        'label' => t('Bookmarks'),
+        'admin' => array(
+          'path' => 'admin/bookmarks',
+        ),
+       ),
+     ),
+    'access callback' => 'bookmarks_access_callback',
+    'uri callback' => 'entity_class_uri',
+    'admin ui' => array(
+        'path' => 'admin/bookmarks',
+          'controller class' => 'EntityDefaultUIController',
+    ),
     'module' => 'bookmarks',
-    'entity class' => 'Entity',
+    'entity class' => 'BookmarkEntity', 
     'controller class' => 'BookmarkEntityController',
   );
 
   return $info;
+}
+
+/**
+  *  * Access callback for bookmark entities.
+  *   */
+function bookmarks_access_callback($op, $project = NULL, $account = NULL) {
+  if ($op == 'view' || $op == 'update' || $op == 'create' || $op == 'delete') {
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
 }
 
 
@@ -62,6 +90,50 @@ function bookmarks_view_bookmark($id) {
 
   return $output;
 }
+
+/**
+  *  * Form definition for adding / editing a bookmark.
+  *   */
+function bookmarks_form($form, &$form_state, $bookmark = NULL) {
+
+  $form['bookmark'] = array(
+    '#title' => t('Bookmark'),
+    '#type' => 'textfield',
+    '#default_value' => isset($bookmark->bookmark) ? $bookmark->bookmark : '',
+    '#required' => TRUE,
+  );
+  $form['url'] = array(
+    '#title' => t('URL'),
+    '#type' => 'textfield',
+    '#default_value' => isset($bookmark->url) ? $bookmark->url: '',
+    '#required' => TRUE,
+  );
+  $form['added'] = array(
+    '#title' => t('Date Added'),
+    //'#type' => 'textfield',
+    '#type' => 'textfield',
+    '#default_value' => isset($bookmark->added) ? check_plain($bookmark->added) : '',
+    '#required' => FALSE,
+   );
+
+  $form['submit'] = array(
+    '#type' => 'submit', 
+    '#value' => isset($project->id) ? t('Update bookmark') : t('Save bookmark'),
+    '#weight' => 50,
+   );
+
+  return $form;
+}
+
+/**
+  *  * Submit handler for the project add/edit form.
+  *   */
+function bookmarks_form_submit($form, &$form_state) {
+  $bookmark = entity_ui_form_submit_build_entity($form, $form_state);
+  $bookmark->save();
+  drupal_set_message(t('The bookmark: @bookmark has been saved.', array('@bookmark' => $bookmark->bookmark)));
+  $form_state['redirect'] = 'admin/bookmarks';
+}
 /**
  * Extending the EntityAPIController for the Project entity.
  */
@@ -88,5 +160,17 @@ class BookmarkEntityController extends EntityAPIController {
       '#suffix' => '</p>',
     );
     return $build;
+  }
+}
+
+/**
+ *  * Project entity class extending the Entity class
+ *   */
+class BookmarkEntity extends Entity {
+  /**
+  *    * Change the default URI from default/id to project/id
+  *       */
+  protected function defaultUri() {
+    return array('path' => 'bookmark/' . $this->identifier());
   }
 }
