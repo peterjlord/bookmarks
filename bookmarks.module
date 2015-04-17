@@ -14,6 +14,8 @@ function bookmarks_entity_info() {
       'label' => 'name',
     ),
     'module' => 'bookmarks',
+    'entity class' => 'Entity',
+    'controller class' => 'BookmarkEntityController',
   );
 
   return $info;
@@ -41,10 +43,45 @@ function bookmarks_menu() {
 }
 
 function bookmarks_view_bookmarks() {
-  $bookmarks = entity_load('bookmarks', array(1, 2));
-  dpm($bookmarks);
-  return 'Some string';
+  $bookmarks = entity_load('bookmarks', array(1, 2, 3));
+  $list = entity_view('bookmarks', $bookmarks);
+  dsm($list);
+  $output = array();
+
+  foreach ($list['bookmarks'] as $bookmark) {
+    $output[] = drupal_render($bookmark);
+  }
+
+  return implode($output);
 }
 function bookmarks_view_bookmark() {
 
+}
+/**
+ * Extending the EntityAPIController for the Project entity.
+ */
+class BookmarkEntityController extends EntityAPIController {
+  function buildContent($entity, $view_mode = 'full', $langcode = NULL, $content = array()) {
+    $build = parent::buildContent($entity, $view_mode, $langcode, $content);
+    // Our additions to the $build render array.
+    $build['bookmark'] = array(
+      '#type' => 'markup',
+      '#markup' => check_plain($entity->bookmark),
+      '#prefix' => '<div class="project-description">',
+      '#suffix' => '</div>',
+    );
+    $build['url'] = array(
+      '#type' => 'markup',
+      '#markup' => check_plain($entity->url),
+      '#prefix' => '<div class="project-description">',
+      '#suffix' => '</div>',
+    );
+    $build['added'] = array(
+      '#type' => 'markup',
+      '#markup' => date('d F, Y', check_plain($entity->added)),
+      '#prefix' => '<p>Added: ',
+      '#suffix' => '</p>',
+    );
+    return $build;
+  }
 }
