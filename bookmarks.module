@@ -11,9 +11,8 @@ function bookmarks_entity_info() {
     'base table' => 'bookmarks',
     'entity keys' => array(
       'id' => 'id',
-      'label' => 'name',
+      'label' => 'bookmark',
     ),
-
     'fieldable' => TRUE,
     'bundles' => array(
       'bookmarks' => array(
@@ -73,7 +72,6 @@ function bookmarks_menu() {
 function bookmarks_view_bookmarks() {
   $bookmarks = entity_load('bookmarks', array(1, 2, 3));
   $list = entity_view('bookmarks', $bookmarks);
-  dsm($list);
   $output = array();
 
   foreach ($list['bookmarks'] as $bookmark) {
