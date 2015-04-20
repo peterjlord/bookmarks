@@ -106,6 +106,8 @@ function bookmarks_form($form, &$form_state, $bookmark = NULL) {
     '#default_value' => isset($bookmark->url) ? $bookmark->url: '',
     '#required' => TRUE,
   );
+  field_attach_form('bookmarks', $bookmark, $form, $form_state);
+
   $form['submit'] = array(
     '#type' => 'submit', 
     '#value' => isset($project->id) ? t('Update bookmark') : t('Save bookmark'),
@@ -142,12 +144,6 @@ class BookmarkEntityController extends EntityAPIController {
       '#markup' => check_plain($entity->url),
       '#prefix' => '<div class="bookmark-url">',
       '#suffix' => '</div>',
-    );
-    $build['added'] = array(
-      '#type' => 'markup',
-      '#markup' => date('d F, Y', check_plain($entity->added)),
-      '#prefix' => '<p>Date Added: ',
-      '#suffix' => '</p>',
     );
     return $build;
   }
